@@ -21,6 +21,12 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o user-service ./cmd/main.go
 # Start a new stage to create a minimal image
 FROM alpine:latest
 
+# Update package list and install curl
+RUN apk update && apk add curl
+
+# Optional: Clean up to reduce image size
+RUN rm -rf /var/cache/apk/*
+
 # Set the working directory inside the container
 WORKDIR /app
 
