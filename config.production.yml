@@ -1,0 +1,14 @@
+databases:
+  - dbname: "user"
+    url: "host=45.136.238.4 user=roin password=roindevdb dbname=user port=5432 sslmode=disable TimeZone=UTC"
+
+server:
+  services:
+    - name: "user-service"
+      port: "5000"
+
+app:
+  name: "appdoc-api"
+  jwt:
+    key: "7QMeMdlE4kKXfiBC3e37iQ"
+    exp: 1

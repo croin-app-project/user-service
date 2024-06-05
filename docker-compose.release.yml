@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile.release
+    image: user-service
+    environment:
+      - ENVIRONMENT_MY_GO=release
+    ports:
+      - "5000:5000" # Expose the port of your application
+    healthcheck:
+      test: [
+          "CMD-SHELL",
+          "curl --fail http://localhost:5000/healthcheck || exit 1",
+        ] # Adjust the health check command based on your application's health check endpoint.
+      interval: 30s # Interval between health checks
+      timeout: 10s # Timeout for each health check attempt
+      retries: 5 # Number of retries before considering the container unhealthy
+    restart: always
+
+
+networks:
+  roin-services_roin_backend_network:
+    external: true
+    name: roin-services_roin_backend_network

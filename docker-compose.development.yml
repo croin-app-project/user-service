@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile.development
+    image: user-service
+    environment:
+      - ENVIRONMENT_MY_GO=development
+    ports:
+      - "5000:5000" # Expose the port of your application
+    healthcheck:
+      test: [
+          "CMD-SHELL",
+          "curl --fail http://localhost:5000/healthcheck || exit 1",
+        ] # Adjust the health check command based on your application's health check endpoint.
+      interval: 30s # Interval between health checks
+      timeout: 10s # Timeout for each health check attempt
+      retries: 5 # Number of retries before considering the container unhealthy
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: roin
+      POSTGRES_PASSWORD: roindevdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U roin"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+
+volumes:
+  postgres_data:
