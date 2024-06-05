@@ -37,7 +37,7 @@ func (impl *AuthenticateControllerImpl) Register(c *fiber.Ctx) error {
 	}
 
 	isExists, err := impl._userService.IsAlreadyExistsByUsername(body.Username)
-	if err != nil {
+	if err != nil && err.Error() != "record not found" {
 		errCode, errObj := http_response.HandleException(http_response.DATABASE_ERROR, err)
 		return c.Status(errCode).JSON(errObj)
 	}
@@ -46,6 +46,10 @@ func (impl *AuthenticateControllerImpl) Register(c *fiber.Ctx) error {
 		return c.Status(errCode).JSON(errObj)
 	}
 	passwordHash, err := _helper.HashPassword(body.Password)
+	if err != nil {
+		errCode, errObj := http_response.HandleException(http_response.INTERNAL_SYSTEM_ERROR, err)
+		return c.Status(errCode).JSON(errObj)
+	}
 	user := domain.User{
 		PasswordHash:     passwordHash,
 		RegistrationDate: time.Now(),
