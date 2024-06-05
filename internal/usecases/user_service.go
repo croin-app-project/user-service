@@ -25,14 +25,9 @@ func (impl *UserServiceImpl) IsAlreadyExistsByUsername(useranme string) (bool, e
 }
 
 func (impl *UserServiceImpl) SaveNewUser(u domain.User) error {
-	// Hash the password
-	hashedPassword, err := helpers.HashPassword(u.PasswordHash)
-	if err != nil {
-		return err
-	}
 
 	// Create user
-	user := &domain.User{Username: u.Username, Email: u.Email, PasswordHash: hashedPassword, IsActive: true}
+	user := &domain.User{Username: u.Username, Email: u.Email, PasswordHash: u.PasswordHash, IsActive: true}
 	if err := impl._userRepository.Create(user); err != nil {
 		return err
 	}
