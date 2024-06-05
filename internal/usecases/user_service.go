@@ -41,7 +41,7 @@ func (impl *UserServiceImpl) SaveNewUser(u domain.User) error {
 }
 
 func (impl *UserServiceImpl) VerifyUsernamePassword(username string, password string) (*domain.User, error) {
-	user, err := impl._userRepository.FindByCredential(username, password)
+	user, err := impl._userRepository.FindByCredential(username)
 	if err != nil {
 		return nil, err
 	}

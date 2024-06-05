@@ -17,7 +17,7 @@ type User struct {
 type IUserRepository interface {
 	Create(user *User) error
 	FindByID(id uint) (*User, error)
-	FindByCredential(username string, password string) (*User, error)
+	FindByCredential(username string) (*User, error)
 	IsExistsByUsername(username string) (bool, error)
 	Update(user *User) error
 	Delete(id uint) error

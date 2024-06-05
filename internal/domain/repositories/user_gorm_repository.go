@@ -30,9 +30,9 @@ func (r *UserGormRepository) FindByID(id uint) (*domain.User, error) {
 }
 
 // FindByCredential retrieves a user record by its username and password a from the database
-func (r *UserGormRepository) FindByCredential(username string, password string) (*domain.User, error) {
+func (r *UserGormRepository) FindByCredential(username string) (*domain.User, error) {
 	var user domain.User
-	if err := r.db.Model(&domain.User{}).Where(&domain.User{Username: username, PasswordHash: password, IsActive: true}).First(&user).Error; err != nil {
+	if err := r.db.Model(&domain.User{}).Where(&domain.User{Username: username, IsActive: true}).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
