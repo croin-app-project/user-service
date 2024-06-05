@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"errors"
-
 	"github.com/croin-app-project/user-service/internal/domain"
 
 	"gorm.io/gorm"
@@ -42,12 +40,7 @@ func (r *UserGormRepository) FindByCredential(username string, password string) 
 
 func (r *UserGormRepository) IsExistsByUsername(username string) (bool, error) {
 	if err := r.db.Model(&domain.User{}).Where(&domain.User{Username: username, IsActive: true}).Select("username").First(&username).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return false, nil
-		} else {
-			return false, err
-		}
-
+		return false, err
 	} else {
 		return true, nil
 	}
