@@ -41,7 +41,7 @@ func (r *UserGormRepository) FindByCredential(username string, password string) 
 }
 
 func (r *UserGormRepository) IsExistsByUsername(username string) (bool, error) {
-	var user *string
+	var user domain.User
 	if err := r.db.Model(&domain.User{}).Where(&domain.User{Username: username, IsActive: true}).Select("username").First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return false, nil
