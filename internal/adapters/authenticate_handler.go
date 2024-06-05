@@ -10,18 +10,17 @@ import (
 	"github.com/croin-app-project/user-service/internal/domain"
 	"github.com/croin-app-project/user-service/internal/usecases/iservices"
 	"github.com/croin-app-project/user-service/middleware"
+	"github.com/mitchellh/mapstructure"
 
-	"github.com/devfeel/mapper"
 	"github.com/gofiber/fiber/v2"
 )
 
 type AuthenticateControllerImpl struct {
-	_mapper      mapper.IMapper
 	_userService iservices.IUserService
 }
 
-func NewAuthenticateController(f fiber.Router, mapper mapper.IMapper, userService iservices.IUserService) {
-	handler := &AuthenticateControllerImpl{_mapper: mapper, _userService: userService}
+func NewAuthenticateController(f fiber.Router, userService iservices.IUserService) {
+	handler := &AuthenticateControllerImpl{_userService: userService}
 	v1 := f.Group("/v1")
 	api := v1.Group("/authenticate")
 	api.Post("/register", handler.Register)
@@ -54,7 +53,7 @@ func (impl *AuthenticateControllerImpl) Register(c *fiber.Ctx) error {
 		PasswordHash:     passwordHash,
 		RegistrationDate: time.Now(),
 	}
-	impl._mapper.Mapper(body, user)
+	mapstructure.Decode(body, &user)
 
 	if err := impl._userService.SaveNewUser(user); err != nil {
 		errCode, errObj := http_response.HandleException(http_response.INTERNAL_SYSTEM_ERROR, err)

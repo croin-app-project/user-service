@@ -4,7 +4,6 @@ go 1.21.1
 
 require (
 	github.com/croin-app-project/package v0.0.0-20240531040358-4cf3b0be30b6
-	github.com/devfeel/mapper v0.7.13
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/gorm v1.25.10
@@ -26,6 +25,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

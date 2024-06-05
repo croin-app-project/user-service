@@ -10,7 +10,6 @@ import (
 	"github.com/croin-app-project/user-service/internal/domain/repositories"
 	"github.com/croin-app-project/user-service/internal/usecases"
 
-	"github.com/devfeel/mapper"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -25,7 +24,6 @@ func main() {
 	configUserService := _helpers.Filter(config.Server.Services, func(s _config.ServiceSetting) bool {
 		return s.Name == "user-service"
 	})[0]
-	m := mapper.NewMapper()
 	app := fiber.New()
 	api := app.Group("/api/" + configUserService.Name)
 	dsn := dbConfig.Url
@@ -41,7 +39,7 @@ func main() {
 
 	userRepository := repositories.NewUserGormRepository(db)
 	userService := usecases.NewUserService(userRepository)
-	adapters.NewAuthenticateController(api, m, userService)
+	adapters.NewAuthenticateController(api, userService)
 
 	middL := _middleware.InitMiddleware()
 	app.Use(middL.CORS())
