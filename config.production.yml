@@ -1,6 +1,6 @@
 databases:
   - dbname: "user"
-    url: "host=45.136.238.4 user=roin password=roindevdb dbname=user port=5432 sslmode=disable TimeZone=UTC"
+    url: "host=45.136.238.4 user=roin password=roindevdb dbname=roin port=5432 sslmode=disable TimeZone=UTC"
 
 server:
   services:
