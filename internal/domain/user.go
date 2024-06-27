@@ -15,6 +15,7 @@ type User struct {
 }
 
 type IUserRepository interface {
+	FindAll() ([]User, error)
 	Create(user *User) error
 	FindByID(id uint) (*User, error)
 	FindByCredential(username string) (*User, error)

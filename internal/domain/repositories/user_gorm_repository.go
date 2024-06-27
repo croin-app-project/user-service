@@ -55,3 +55,12 @@ func (r *UserGormRepository) Update(user *domain.User) error {
 func (r *UserGormRepository) Delete(id uint) error {
 	return r.db.Model(&domain.User{}).Delete(&domain.User{}, id).Error
 }
+
+// FindAll retrieves all user records from the database
+func (r *UserGormRepository) FindAll() ([]domain.User, error) {
+	var users []domain.User
+	if err := r.db.Model(&domain.User{}).Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
+}

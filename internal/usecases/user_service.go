@@ -47,3 +47,29 @@ func (impl *UserServiceImpl) VerifyUsernamePassword(username string, password st
 		return nil, nil
 	}
 }
+
+func (impl *UserServiceImpl) GetAllUsers() ([]domain.User, error) {
+	users, err := impl._userRepository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (impl *UserServiceImpl) UpdateUser(u domain.User) error {
+	user, err := impl._userRepository.FindByID(u.UserID)
+	if err != nil {
+		return err
+	}
+
+	user.Username = u.Username
+	user.Email = u.Email
+	user.PasswordHash = u.PasswordHash
+	user.IsActive = u.IsActive
+
+	if err := impl._userRepository.Update(user); err != nil {
+		return err
+	}
+
+	return nil
+}
